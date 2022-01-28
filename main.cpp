@@ -4,22 +4,22 @@
 #include <QFile>
 #include <QMessageBox>
 
-//const QString resFilePath {
+//All pathes like this depend on IDE settings:
+const QString resFilePath { "../qt_3/resources.rcc" };
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QFile resFile { "./resources.rcc" };
+    QFile resFile { resFilePath };
     if (!resFile.exists())
     {
-        QMessageBox::warning(nullptr, "File not found", "Can't open resourses file.");
-//        QMessageBox::warning(nullptr, "File not found",
+        QMessageBox::warning(nullptr, "File not found",
+            "Can't open resourses file " + resFilePath);
 
         return -1;
     }
 
-    //QResource::registerResource("./resources.rcc");
-    QResource::registerResource("../qt_3/resources.rcc");
+    QResource::registerResource(resFilePath);
     MainWindow w;
     w.show();
 

@@ -24,8 +24,9 @@ void Task1::on_btnClose_clicked()
 
 void Task1::on_btnSave_clicked()
 {
-    QString filePath { QFileDialog::getSaveFileName(this, "Save file as", QDir::current().path(),
-        trUtf8("Text file(*.txt)")) };
+    QString filePath { QFileDialog::getSaveFileName(this,
+         "Save file as", QDir::current().path(),
+            trUtf8("Text file(*.txt)")) };
 
     if (filePath.length())
     {
@@ -41,8 +42,8 @@ void Task1::on_btnSave_clicked()
          }
         else //!open
         {
-        QMessageBox::warning(this, "File not found", "Can't open file " +
-           filePath);
+        QMessageBox::warning(this, "File not found",
+             "Can't open file " + filePath);
 
         }
 
@@ -54,8 +55,9 @@ void Task1::on_btnSave_clicked()
 
 void Task1::on_btnOpen_clicked()
 {
-    QString filePath { QFileDialog::getOpenFileName(this, "Choose file to open", QDir::current().path(),
-        trUtf8("Text file(*.txt)")) };
+    QString filePath { QFileDialog::getOpenFileName(this,
+        "Choose file to open", QDir::current().path(),
+            trUtf8("Text file(*.txt)")) };
 
     if (filePath.length())
     {
@@ -66,12 +68,13 @@ void Task1::on_btnOpen_clicked()
              if (file.open(QFile::ReadOnly | QFile::ExistingOnly))
              {
                  QTextStream stream(&file);
-                 ui->plainTextEdit->setPlainText(stream.readAll());
+                 ui->plainTextEdit->setPlainText(
+                    stream.readAll());
                  file.close();
              }
              else //!open
-                 QMessageBox::warning(this, "File not found", "Can't open file " +
-                     filePath);
+                 QMessageBox::warning(this, "File not found",
+                    "Can't open file " + filePath);
          }
 
     }
@@ -90,9 +93,8 @@ void Task1::on_btnHelp_clicked()
      file.close();
     }
     else //if !file.open()
-        QMessageBox::warning(this, "File not found", "Can't open file " +
-            filePath);
-
+        QMessageBox::warning(this, "File not found",
+            "Can't open file " + filePath);
 
 }
 
