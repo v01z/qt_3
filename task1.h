@@ -1,6 +1,7 @@
 #ifndef TASK1_H
 #define TASK1_H
 
+#include "mainwindow.h"
 #include <QMainWindow>
 
 namespace Ui {

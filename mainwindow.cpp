@@ -1,7 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "task1.h"
 #include "task2.h"
+#include <QStyle>
+#include <QDesktopWidget>
+
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,12 +21,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnTask1_clicked()
 {
-   // Task1 form;
+   secondWindow.setWindowModality(Qt::ApplicationModal);
+   secondWindow.setGeometry(QStyle::alignedRect(Qt::LeftToRight,
+        Qt::AlignCenter, secondWindow.size(), qApp->desktop()->availableGeometry()));
+   secondWindow.show();
 
-    /*
-    form.setModal(true);
-    form.exec();
-    */
 }
 
 
