@@ -18,6 +18,12 @@ public:
 private slots:
     void on_btnClose_clicked();
 
+    void on_btnSave_clicked();
+
+    void on_btnOpen_clicked();
+
+    void on_btnHelp_clicked();
+
 private:
     Ui::Task1 *ui;
 };
