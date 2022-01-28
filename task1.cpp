@@ -2,6 +2,7 @@
 #include "ui_task1.h"
 #include <QFileDialog>
 #include <QTextStream>
+#include <QMessageBox>
 
 Task1::Task1(QWidget *parent) :
     QDialog(parent),
@@ -33,11 +34,17 @@ void Task1::on_btnSave_clicked()
 
         QFile file { filePath };
         if (file.open(QFile::WriteOnly | QFile::NewOnly))
-                   {
-                       QTextStream stream(&file);
-                       stream << ui->plainTextEdit->toPlainText();
-                       file.close();
-                   }
+         {
+           QTextStream stream(&file);
+           stream << ui->plainTextEdit->toPlainText();
+           file.close();
+         }
+        else //!open
+        {
+        QMessageBox::warning(this, "File not found", "Can't open file " +
+           filePath);
+
+        }
 
     }
 
@@ -62,6 +69,9 @@ void Task1::on_btnOpen_clicked()
                  ui->plainTextEdit->setPlainText(stream.readAll());
                  file.close();
              }
+             else //!open
+                 QMessageBox::warning(this, "File not found", "Can't open file " +
+                     filePath);
          }
 
     }
@@ -70,6 +80,19 @@ void Task1::on_btnOpen_clicked()
 
 void Task1::on_btnHelp_clicked()
 {
+    QString filePath { ":help.txt" };
+
+    QFile file { filePath };
+    if (file.open(QFile::ReadOnly | QFile::ExistingOnly))
+    {
+     QTextStream stream(&file);
+     ui->plainTextEdit->setPlainText(stream.readAll());
+     file.close();
+    }
+    else //if !file.open()
+        QMessageBox::warning(this, "File not found", "Can't open file " +
+            filePath);
+
 
 }
 
