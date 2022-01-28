@@ -12,3 +12,10 @@ Task2::~Task2()
 {
     delete ui;
 }
+
+// https://trk.mail.ru/c/qtcyh9
+
+// https://pogoda.mail.ru/
+
+
+//https://news.mail.ru/currency/src/MOEX/charcode/USD/
