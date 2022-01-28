@@ -1,20 +1,22 @@
 #ifndef TASK1_H
 #define TASK1_H
 
-#include "mainwindow.h"
-#include <QMainWindow>
+#include <QDialog>
 
 namespace Ui {
 class Task1;
 }
 
-class Task1 : public QMainWindow
+class Task1 : public QDialog
 {
     Q_OBJECT
 
 public:
     explicit Task1(QWidget *parent = nullptr);
     ~Task1();
+
+private slots:
+    void on_btnClose_clicked();
 
 private:
     Ui::Task1 *ui;
