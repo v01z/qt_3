@@ -94,7 +94,7 @@ void Task1::on_btnHelp_clicked()
     }
     else //if !file.open()
         QMessageBox::warning(this, "File not found",
-            "Can't open file " + filePath);
+            "Can't open resource " + filePath);
 
 }
 
