@@ -9,8 +9,8 @@ Task2::Task2(QWidget *parent) :
     ui->setupUi(this);
 
     ui->comboBox->addItem("Choose host");
-    ui->comboBox->addItem("mail.ru");
-    ui->comboBox->addItem("yandex.ru");
+    ui->comboBox->addItem(hostConvArr[0].hostName);
+    ui->comboBox->addItem(hostConvArr[1].hostName);
 
     ui->textEdit->setText("Here will be info when you " \
         "click on combobox");
