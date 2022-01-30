@@ -49,7 +49,9 @@ const HostConvention hostConvArr[] =
     { "yandex.ru",
       "https://yandex.ru/pogoda/",
       //"nowcastAlert\":\"[\p{Cyrillic}|[:alnum:]],\"icon\":\"bkn_sn_n",
-      "nowcastAlert\":\"(\\w{1,}),\"icon\":\"bkn_sn_n",
+//      "nowcastAlert\":\"(.+),\"icon\":\"bkn_sn_n",
+      //"nowcastAlert\":\"(.+),\"icon\":\"bkn_sn_n" //works on regex101.com
+      "nowcastAlert\":\"(.+),\"icon\":",
       "",
       ""
     }

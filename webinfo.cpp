@@ -73,13 +73,44 @@ void constructorHelper(WebInfo &webInfo)
                return;
             }
 
-            webInfo.m_weather = match.captured(1);
+//            webInfo.m_weather = match.captured(1);
             if (webInfo.m_hstCnv.hostName == hostConvArr[0].hostName)
                 {
+                    //webInfo.m_weather.append(match.captured(1));
+                    webInfo.m_weather = "Погода:\n" + match.captured(1);
+
                     //&deg; - мусор
                     webInfo.m_weather.replace("&deg;","");
+                    webInfo.m_weather.append(".\n\n");
 
                 }
+            else if (webInfo.m_hstCnv.hostName == hostConvArr[1].hostName)
+                {
+                    webInfo.m_weather = match.captured(1);
+/*
+                    webInfo.m_weather = webInfo.m_weather.remove(
+                        webInfo.m_weather.indexOf('\"'),
+                            webInfo.m_weather.indexOf('u'));
+*/
+                    //Жалко, нельзя воспользоваться предыдущим объектом
+                    //регулярки (reg) - нет перегруженного оператора
+                    //присваивания, где rvalue был бы QString.
+                    QRegularExpression innerReg
+                     { "(.+)\",\"fact(.+)temp\":(.+),\"feels_like\":(.+)" };
+                    match = innerReg.match(webInfo.m_weather);
+                    if(match.hasMatch())
+                    {
+                        webInfo.m_weather = "Погода:\n" + match.captured(1) +
+                            ". Температура " + match.captured(3) +
+                                ". Чувствуется как " + match.captured(4) +
+                                    ".\n\n";
+
+                    }
+
+
+                }
+
+
             }
         else
             {
