@@ -12,12 +12,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     task1.cpp \
-    task2.cpp
+    task2.cpp \
+    webinfo.cpp
 
 HEADERS += \
     mainwindow.h \
     task1.h \
-    task2.h
+    task2.h \
+    webinfo.h
 
 FORMS += \
     mainwindow.ui \

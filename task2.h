@@ -15,6 +15,11 @@ public:
     explicit Task2(QWidget *parent = nullptr);
     ~Task2();
 
+private slots:
+    void on_btnClose_clicked();
+
+    void on_comboBox_activated(const QString &arg1);
+
 private:
     Ui::Task2 *ui;
 };
