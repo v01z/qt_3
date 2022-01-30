@@ -1,5 +1,9 @@
 #include "webinfo.h"
 #include <QRegExp>
+#include <QProcess>
+#include <QFile>
+#include <QTextStream>
+#include <QDebug>
 
 
 WebInfo::WebInfo(const QString &host)
@@ -10,19 +14,39 @@ WebInfo::WebInfo(const QString &host)
     }
     else {
         if (host == "mail.ru")
-        m_hstCnv = hostConvArr[0];
+            m_hstCnv = hostConvArr[0];
+
         if (host == "yandex.ru")
-        m_hstCnv = hostConvArr[1];
+            m_hstCnv = hostConvArr[1];
 
-        QRegExp reg { m_hstCnv.weatherRegExpStr };
-        if (reg.indexIn(m_hstCnv.weatherRegExpStr) == -1)
-        {
-           m_weather = "Wheather info for " + m_hstCnv.hostName +
-            " not found.";
-           return;
-        }
+        QFile htmlFile { "index.html" };
+        if (htmlFile.exists())
+            htmlFile.remove();
 
-        m_weather = reg.cap();
+        //unix only!
+        QProcess::execute("wget", QStringList() << "mail.ru");
+
+        if (htmlFile.open(QFile::ReadOnly |
+                QFile::ExistingOnly))
+            {
+            QTextStream stream(&htmlFile);
+
+
+            QRegExp reg { m_hstCnv.weatherRegExpStr };
+//            if (reg.indexIn(stream.readAll(), 0) == -1)
+            if (!reg.exactMatch(stream.readAll()))
+            {
+               m_weather = "Weather info for " + m_hstCnv.hostName +
+                " not found.";
+               return;
+            }
+
+            m_weather = reg.cap(1);
+            }
+        else
+            {
+            m_weather = "Can't open index.html.";
+            }
     }
 
 }

@@ -3,11 +3,14 @@
 
 #include <QString>
 
+//const QString
+
 struct HostConvention {
     QString hostName;
-    QString weatherPath;
+ //   QString localFilePath;
+    QString weatherURL;
     QString weatherRegExpStr;
-    QString currencyPath;
+    QString currencyURL;
     QString currencyRegExpStr;
 };
 
