@@ -23,8 +23,12 @@ private:
     QString m_currency{};
 public:
     WebInfo(const QString&);
+    const HostConvention getHstCnv() const;
     const QString getWeather() const;
     const QString getCurrency() const;
+    void setHstCnv(const HostConvention&);
+    void setWeather(const QString&);
+    void setCurrency(const QString&);
 
 };
 
@@ -45,7 +49,7 @@ const HostConvention hostConvArr[] =
     { "yandex.ru",
       "https://yandex.ru/pogoda/",
       //"nowcastAlert\":\"[\p{Cyrillic}|[:alnum:]],\"icon\":\"bkn_sn_n",
-      "nowcastAlert\":\"(\w{1,}),\"icon\":\"bkn_sn_n",
+      "nowcastAlert\":\"(\\w{1,}),\"icon\":\"bkn_sn_n",
       "",
       ""
     }

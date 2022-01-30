@@ -65,6 +65,11 @@ WebInfo::WebInfo(const QString &host)
 
 }
 
+const HostConvention WebInfo::getHstCnv() const
+{
+    return m_hstCnv;
+}
+
 const QString WebInfo::getWeather() const
 {
     return m_weather;
@@ -73,6 +78,21 @@ const QString WebInfo::getWeather() const
 const QString WebInfo::getCurrency() const
 {
     return m_currency;
+}
+
+void WebInfo::setHstCnv(const HostConvention &ihstCnv)
+{
+    m_hstCnv = ihstCnv;
+}
+
+void WebInfo::setWeather(const QString &iweather)
+{
+    m_weather = iweather;
+}
+
+void WebInfo::setCurrency(const QString &icurrency)
+{
+    m_currency = icurrency;
 }
 
 void removeHtmlFile(QFile &file)
