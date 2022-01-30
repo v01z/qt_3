@@ -23,12 +23,12 @@ private:
     QString m_currency{};
 public:
     WebInfo(const QString&);
-    const HostConvention getHstCnv() const;
     const QString getWeather() const;
     const QString getCurrency() const;
-    void setHstCnv(const HostConvention&);
-    void setWeather(const QString&);
-    void setCurrency(const QString&);
+
+    //Функция призвана уменьшить число строк кода в конструкторе,
+    //а также избегнуть дополнительных геттеров и сеттеров
+    friend void constructorHelper(WebInfo&);
 
 };
 
