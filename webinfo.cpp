@@ -20,7 +20,7 @@ WebInfo::WebInfo(const QString &host)
     else if (host == hostConvArr[1].hostName)
         m_hstCnv = hostConvArr[1];
 
-    constructorHelper(*this);
+    gettingWeather(*this);
 
 
 }
@@ -35,20 +35,11 @@ const QString WebInfo::getCurrency() const
     return m_currency;
 }
 
-void removeHtmlFile(QFile &file)
-{
-    if (file.exists())
-          file.remove();
-}
-
-void constructorHelper(WebInfo &webInfo)
+void gettingWeather(WebInfo &webInfo)
 {
         QFile htmlFile { "index.html" };
-        removeHtmlFile(htmlFile);
-    /*
         if (htmlFile.exists())
-            htmlFile.remove();
-*/
+             htmlFile.remove();
 
         //Реализация http-клиента, подозреваю, выходит за рамки текущего ДЗ,
         //поэтому для получения index.html решил задействовать утилиту wget
@@ -58,25 +49,21 @@ void constructorHelper(WebInfo &webInfo)
                 QFile::ExistingOnly))
             {
             QTextStream stream(&htmlFile);
-//            QString tempStr { htmlFile.readAll()}; //debug
 
 
             QRegularExpression reg { webInfo.m_hstCnv.weatherRegExpStr };
             QRegularExpressionMatch match { reg.match(stream.readAll()) };
-//            if (reg.indexIn(stream.readAll(), 0) == -1)
-            //if (!reg.hasMatch(stream.readAll()))
+
             if (!match.hasMatch())
             {
                webInfo.m_weather = "Weather info from " + webInfo.m_hstCnv.hostName +
                 " not found.";
-             //   m_weather = tempStr; //debug
+
                return;
             }
 
-//            webInfo.m_weather = match.captured(1);
             if (webInfo.m_hstCnv.hostName == hostConvArr[0].hostName)
                 {
-                    //webInfo.m_weather.append(match.captured(1));
                     webInfo.m_weather = "Погода:\n" + match.captured(1);
 
                     //&deg; - мусор
@@ -87,11 +74,7 @@ void constructorHelper(WebInfo &webInfo)
             else if (webInfo.m_hstCnv.hostName == hostConvArr[1].hostName)
                 {
                     webInfo.m_weather = match.captured(1);
-/*
-                    webInfo.m_weather = webInfo.m_weather.remove(
-                        webInfo.m_weather.indexOf('\"'),
-                            webInfo.m_weather.indexOf('u'));
-*/
+
                     //Жалко, нельзя воспользоваться предыдущим объектом
                     //регулярки (reg) - нет перегруженного оператора
                     //присваивания, где rvalue был бы QString.
@@ -116,6 +99,15 @@ void constructorHelper(WebInfo &webInfo)
             {
             webInfo.m_weather = "Can't open index.html.";
             }
+
+}
+
+void gettingCurrency(WebInfo &webInfo)
+{
+
+    QFile htmlFile { "index.html" };
+    if (htmlFile.exists())
+         htmlFile.remove();
 
 }
 
