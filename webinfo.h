@@ -46,7 +46,11 @@ const HostConvention hostConvArr[] =
      "https://news.mail.ru/currency/src/CBRF/charcode/USD/",
 //     "RUB\",\"items\":\[\{\"rate\":\"(.+)\",\"link\":\"h"
 //     "RUB\",\"items\":\[\{\"rate\":\"(\d\d).(\d\d)(.+)(\d\d).(\d\d)\",\"link\":\"h"
-"RUB\",\"items\":\[\{\"rate\":\"(\d\d).(\d\d)(...)(\d\d).(\d\d)(...)EUR"
+//"RUB\",\"items\":\[\{\"rate\":\"(\d\d).(\d\d)(...)(\d\d).(\d\d)(...)EUR"
+//     "RUB\",\"items\":\[\{\"rate\":\"(\d\d).(\d\d)(.*?).*(\d\d).(\d\d)(.*?)EUR" //works on 101
+     //"RUB\",\"items\":\[\{\"rate\":\"([\\d][\\d]).([\\d][\\d])(.*?).*([\\d][\\d]).([\\d\\d])(.*?)EUR"
+//     "RUB\",\"items\":\[\{\"rate\":\"(\\d\\d).(\\d\\d)(.*?).*\(\\d\\d).(\\d\\d)(.*?)EUR"
+     (R"("RUB\",\"items\":\[\{\"rate\":\"(\d\d).(\d\d)(.*?).*(\d\d).(\d\d)(.*?)EUR")") //works on 101
     },
 
     { "yandex.ru",
@@ -54,6 +58,7 @@ const HostConvention hostConvArr[] =
       //"nowcastAlert\":\"[\p{Cyrillic}|[:alnum:]],\"icon\":\"bkn_sn_n",
 //      "nowcastAlert\":\"(.+),\"icon\":\"bkn_sn_n",
       //"nowcastAlert\":\"(.+),\"icon\":\"bkn_sn_n" //works on regex101.com
+//      "nowcastAlert\":\"(.+),\"icon\":", //worked home
       "nowcastAlert\":\"(.+),\"icon\":",
       "",
       ""

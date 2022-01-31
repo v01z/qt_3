@@ -21,6 +21,7 @@ WebInfo::WebInfo(const QString &host)
         m_hstCnv = hostConvArr[1];
 
     gettingWeather(*this);
+    gettingCurrency(*this);
 
 
 }
@@ -75,12 +76,8 @@ void gettingWeather(WebInfo &webInfo)
                 {
                     webInfo.m_weather = match.captured(1);
 
-                    //Жалко, нельзя воспользоваться предыдущим объектом
-                    //регулярки (reg) - нет перегруженного оператора
-                    //присваивания, где rvalue был бы QString.
-                    QRegularExpression innerReg
-                     { "(.+)\",\"fact(.+)temp\":(.+),\"feels_like\":(.+)" };
-                    match = innerReg.match(webInfo.m_weather);
+                    reg = QRegularExpression {"(.+)\",\"fact(.+)temp\":(.+),\"feels_like\":(.+)" };
+                    match = reg.match(webInfo.m_weather);
                     if(match.hasMatch())
                     {
                         webInfo.m_weather = "Погода:\n" + match.captured(1) +
@@ -108,6 +105,42 @@ void gettingCurrency(WebInfo &webInfo)
     QFile htmlFile { "index.html" };
     if (htmlFile.exists())
          htmlFile.remove();
+
+    QProcess::execute("wget", QStringList() << webInfo.m_hstCnv.currencyURL);
+
+    if (htmlFile.open(QFile::ReadOnly |
+        QFile::ExistingOnly))
+        {
+        QTextStream stream(&htmlFile);
+
+        QRegularExpression reg { webInfo.m_hstCnv.currencyRegExpStr };
+        QRegularExpressionMatch match { reg.match(stream.readAll()) };
+
+        if (!match.hasMatch())
+            {
+               webInfo.m_currency = "Currency info from " + webInfo.m_hstCnv.hostName +
+            " not found.";
+
+               return;
+            }
+
+            if(webInfo.m_hstCnv.hostName == hostConvArr[0].hostName)
+                {
+                webInfo.m_currency = "Курс валют:\nUSD: " + match.captured(1) + '.' +
+                    match.captured(2) + '\n' + "EUR: " + match.captured(4) + '.' +
+                    match.captured(5);
+                }
+            else if (webInfo.m_hstCnv.hostName == hostConvArr[1].hostName)
+                {
+                webInfo.m_currency = "Курс валют:\nUSD: " ;
+                }
+
+        }
+    else
+        {
+        webInfo.m_currency = "Can't open index.html.";
+        }
+
 
 }
 

@@ -38,7 +38,9 @@ void Task2::on_btnClose_clicked()
 void Task2::on_comboBox_activated(const QString &arg1)
 {
    WebInfo *webInfo = new WebInfo(ui->comboBox->currentText());
-   ui->textEdit->setText(webInfo->getWeather());
+
+   ui->textEdit->setText(webInfo->getWeather() + webInfo->getCurrency());
+
    delete webInfo;
 
 }
