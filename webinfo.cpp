@@ -2,6 +2,7 @@
 #include <QRegularExpression>
 #include <QProcess>
 #include <QTextStream>
+#include <QMessageBox>
 
 
 WebInfo::WebInfo(const QString &host)
@@ -84,6 +85,16 @@ void gettingWeather(WebInfo &webInfo)
                                     ".\n\n";
                     }
                 }
+            else //Если поле "имяХоста" имеет непредусмотренное значение
+             //(такого случиться не должно, но соломку подстелить надо),
+             //то на всякий случай выйдем из приложения совсем
+                {
+                QMessageBox::critical(nullptr, "Irrung",
+                    "Achtung, unerwartete Minen!");
+
+                exit(-1);
+                }
+
             }
         else
             {
@@ -119,7 +130,7 @@ void gettingCurrency(WebInfo &webInfo)
 
             webInfo.m_currency = "Курс валют:\nUSD: " + match.captured(1) + '.' +
                 match.captured(2) + "\nEUR: " + match.captured(4) + '.' +
-                match.captured(5);
+                     match.captured(5);
         }
 
         else if (webInfo.m_hstCnv.hostName == hostConvArr[1].hostName)
@@ -142,10 +153,16 @@ void gettingCurrency(WebInfo &webInfo)
         if (regexIter.hasNext())
             {
             match = regexIter.next();
-
             webInfo.m_currency.append("\nEUR: " + match.captured(1));
             }
         }
+        else //This case will never happen I suppose
+            {
+                QMessageBox::critical(nullptr, "Irrung",
+                    "Achtung, unerwartete Minen!");
+
+                exit(-2);
+            }
 
         }
     else

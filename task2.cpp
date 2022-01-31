@@ -13,7 +13,7 @@ Task2::Task2(QWidget *parent) :
     ui->comboBox->addItem(hostConvArr[1].hostName);
 
     ui->label->setText("Here will be info when you " \
-        "click on combobox above.");
+        "click on the combobox above.");
 
 }
 
