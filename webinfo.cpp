@@ -43,7 +43,8 @@ void gettingWeather(WebInfo &webInfo)
              htmlFile.remove();
 
         //Реализация http-клиента, подозреваю, выходит за рамки текущего ДЗ,
-        //поэтому для получения index.html решил задействовать утилиту wget
+        //поэтому для получения index.html решил задействовать утилиту wget,
+        //but I'm not sure that such decision will work on non-Unix platforms.
         QProcess::execute("wget", QStringList() << webInfo.m_hstCnv.weatherURL);
 
         if (htmlFile.open(QFile::ReadOnly |
@@ -84,19 +85,13 @@ void gettingWeather(WebInfo &webInfo)
                             ". Температура " + match.captured(3) +
                                 ". Чувствуется как " + match.captured(4) +
                                     ".\n\n";
-
                     }
-
-
                 }
-
-
             }
         else
             {
             webInfo.m_weather = "Can't open index.html.";
             }
-
 }
 
 void gettingCurrency(WebInfo &webInfo)
@@ -113,26 +108,53 @@ void gettingCurrency(WebInfo &webInfo)
         {
         QTextStream stream(&htmlFile);
 
-        QRegularExpression reg { webInfo.m_hstCnv.currencyRegExpStr };
-        QRegularExpressionMatch match { reg.match(stream.readAll()) };
+        auto lambda { [&webInfo](bool isMatched) {
+           if (!isMatched)
+               webInfo.m_currency = "Currency info from " +
+             webInfo.m_hstCnv.hostName +
+                " not found.";
+            }};
 
-        if (!match.hasMatch())
-            {
-               webInfo.m_currency = "Currency info from " + webInfo.m_hstCnv.hostName +
-            " not found.";
-
-               return;
-            }
+            QRegularExpression reg { webInfo.m_hstCnv.currencyRegExpStr };
+            QRegularExpressionMatch match;
 
             if(webInfo.m_hstCnv.hostName == hostConvArr[0].hostName)
                 {
+                match = reg.match(stream.readAll());
+
+                if (!match.hasMatch())
+                {
+                   lambda(false);
+                   return;
+                }
+
                 webInfo.m_currency = "Курс валют:\nUSD: " + match.captured(1) + '.' +
-                    match.captured(2) + '\n' + "EUR: " + match.captured(4) + '.' +
+                    match.captured(2) + "\nEUR: " + match.captured(4) + '.' +
                     match.captured(5);
                 }
+
             else if (webInfo.m_hstCnv.hostName == hostConvArr[1].hostName)
                 {
-                webInfo.m_currency = "Курс валют:\nUSD: " ;
+                QRegularExpressionMatchIterator regexIter
+                    { reg.globalMatch(stream.readAll()) };
+
+                if (regexIter.hasNext())
+                    match = regexIter.next();
+
+                else
+                    {
+                    lambda(false);
+                    }
+
+
+                webInfo.m_currency = "Курс валют:\nUSD: " + match.captured(1);// + '.' +
+
+                if (regexIter.hasNext())
+                    {
+                    match = regexIter.next();
+
+                    webInfo.m_currency.append("\nEUR: " + match.captured(1));// + '.' +
+                    }
                 }
 
         }
