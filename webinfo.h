@@ -24,8 +24,6 @@ public:
     const QString getWeather() const;
     const QString getCurrency() const;
 
-    //Функции призваны уменьшить число строк кода в конструкторе,
-    //а также избегнуть дополнительных геттеров и сеттеров
     friend void gettingWeather(WebInfo&);
     friend void gettingCurrency(WebInfo&);
 
@@ -35,11 +33,8 @@ public:
 const HostConvention hostConvArr[] =
 {
    { "mail.ru",
-//     "https://trk.mail.ru/c/qtcyh9",
-     //Same as above link:
      "https://pogoda.mail.ru/prognoz/moskva/",
      "mrc__share_title\" content=\"([^\"]+)\"",
-//     "https://news.mail.ru/currency.html",
      "https://news.mail.ru/currency/src/CBRF/charcode/USD/",
      (R"("RUB\",\"items\":\[\{\"rate\":\"(\d\d).(\d\d)(.*?).*(\d\d).(\d\d)(.*?)EUR")")
     },

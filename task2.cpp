@@ -12,8 +12,6 @@ Task2::Task2(QWidget *parent) :
     ui->comboBox->addItem(hostConvArr[0].hostName);
     ui->comboBox->addItem(hostConvArr[1].hostName);
 
-   // ui->textEdit->setText("Here will be info when you " \
-    //    "click on combobox above.");
     ui->label->setText("Here will be info when you " \
         "click on combobox above.");
 

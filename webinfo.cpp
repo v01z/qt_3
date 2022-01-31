@@ -1,9 +1,7 @@
 #include "webinfo.h"
 #include <QRegularExpression>
 #include <QProcess>
-//#include <QFile>
 #include <QTextStream>
-#include <QDebug> //debug
 
 
 WebInfo::WebInfo(const QString &host)
@@ -147,13 +145,13 @@ void gettingCurrency(WebInfo &webInfo)
                     }
 
 
-                webInfo.m_currency = "Курс валют:\nUSD: " + match.captured(1);// + '.' +
+                webInfo.m_currency = "Курс валют:\nUSD: " + match.captured(1);
 
                 if (regexIter.hasNext())
                     {
                     match = regexIter.next();
 
-                    webInfo.m_currency.append("\nEUR: " + match.captured(1));// + '.' +
+                    webInfo.m_currency.append("\nEUR: " + match.captured(1));
                     }
                 }
 
