@@ -21,12 +21,14 @@ private:
     QString m_currency{};
 public:
     WebInfo(const QString&);
+
     const QString getWeather() const;
     const QString getCurrency() const;
 
     friend void gettingWeather(WebInfo&);
     friend void gettingCurrency(WebInfo&);
 
+    void noInfo(bool);
 };
 
 

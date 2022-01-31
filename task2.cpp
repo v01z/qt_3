@@ -36,7 +36,7 @@ void Task2::on_comboBox_activated(const QString &arg1)
 
    if (comboboxTipIsRemoved == false)
    {
-       ui->comboBox->removeItem(0); //Подсказка на ём нам боле не требуется
+       ui->comboBox->removeItem(0); //Подсказка  нам более не требуется
        comboboxTipIsRemoved = true;
    }
 

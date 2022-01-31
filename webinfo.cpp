@@ -56,8 +56,7 @@ void gettingWeather(WebInfo &webInfo)
 
             if (!match.hasMatch())
             {
-               webInfo.m_weather = "Weather info from " + webInfo.m_hstCnv.hostName +
-                " not found.";
+               webInfo.noInfo(true);
 
                return;
             }
@@ -75,7 +74,7 @@ void gettingWeather(WebInfo &webInfo)
                 {
                     webInfo.m_weather = match.captured(1);
 
-                    reg = QRegularExpression {"(.+)\",\"fact(.+)temp\":(.+),\"feels_like\":(.+)" };
+                    reg = QRegularExpression { "(.+)\",\"fact(.+)temp\":(.+),\"feels_like\":(.+)" };
                     match = reg.match(webInfo.m_weather);
                     if(match.hasMatch())
                     {
@@ -105,62 +104,65 @@ void gettingCurrency(WebInfo &webInfo)
         QFile::ExistingOnly))
         {
         QTextStream stream(&htmlFile);
+        QRegularExpression reg { webInfo.m_hstCnv.currencyRegExpStr };
+        QRegularExpressionMatch match;
 
-        auto lambda { [&webInfo](bool isMatched) {
-           if (!isMatched)
-               webInfo.m_currency = "Currency info from " +
-             webInfo.m_hstCnv.hostName +
-                " not found.";
-            }};
+        if(webInfo.m_hstCnv.hostName == hostConvArr[0].hostName)
+        {
+            match = reg.match(stream.readAll());
 
-            QRegularExpression reg { webInfo.m_hstCnv.currencyRegExpStr };
-            QRegularExpressionMatch match;
+            if (!match.hasMatch())
+            {
+               webInfo.noInfo(false);
+               return;
+            }
 
-            if(webInfo.m_hstCnv.hostName == hostConvArr[0].hostName)
-                {
-                match = reg.match(stream.readAll());
+            webInfo.m_currency = "Курс валют:\nUSD: " + match.captured(1) + '.' +
+                match.captured(2) + "\nEUR: " + match.captured(4) + '.' +
+                match.captured(5);
+        }
 
-                if (!match.hasMatch())
-                {
-                   lambda(false);
-                   return;
-                }
+        else if (webInfo.m_hstCnv.hostName == hostConvArr[1].hostName)
+        {
+        QRegularExpressionMatchIterator regexIter
+            { reg.globalMatch(stream.readAll()) };
 
-                webInfo.m_currency = "Курс валют:\nUSD: " + match.captured(1) + '.' +
-                    match.captured(2) + "\nEUR: " + match.captured(4) + '.' +
-                    match.captured(5);
-                }
+        if (regexIter.hasNext())
+            match = regexIter.next();
 
-            else if (webInfo.m_hstCnv.hostName == hostConvArr[1].hostName)
-                {
-                QRegularExpressionMatchIterator regexIter
-                    { reg.globalMatch(stream.readAll()) };
-
-                if (regexIter.hasNext())
-                    match = regexIter.next();
-
-                else
-                    {
-                    lambda(false);
-                    }
+        else
+            {
+            webInfo.noInfo(false);
+            return;
+            }
 
 
-                webInfo.m_currency = "Курс валют:\nUSD: " + match.captured(1);
+        webInfo.m_currency = "Курс валют:\nUSD: " + match.captured(1);
 
-                if (regexIter.hasNext())
-                    {
-                    match = regexIter.next();
+        if (regexIter.hasNext())
+            {
+            match = regexIter.next();
 
-                    webInfo.m_currency.append("\nEUR: " + match.captured(1));
-                    }
-                }
+            webInfo.m_currency.append("\nEUR: " + match.captured(1));
+            }
+        }
 
         }
     else
         {
         webInfo.m_currency = "Can't open index.html.";
         }
+}
 
+void WebInfo::noInfo(bool isWeather)
+{
+    if (isWeather)
+        m_weather = "Weather info from " +
+            m_hstCnv.hostName + " not found.";
+
+    else
+        m_currency = "Currency info from " +
+            m_hstCnv.hostName + " not found.";
 
 }
 
