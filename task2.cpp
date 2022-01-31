@@ -4,7 +4,7 @@
 
 Task2::Task2(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Task2)
+    ui(new Ui::Task2), comboboxTipIsRemoved(false)
 {
     ui->setupUi(this);
 
@@ -12,8 +12,10 @@ Task2::Task2(QWidget *parent) :
     ui->comboBox->addItem(hostConvArr[0].hostName);
     ui->comboBox->addItem(hostConvArr[1].hostName);
 
-    ui->textEdit->setText("Here will be info when you " \
-        "click on combobox");
+   // ui->textEdit->setText("Here will be info when you " \
+    //    "click on combobox above.");
+    ui->label->setText("Here will be info when you " \
+        "click on combobox above.");
 
 }
 
@@ -21,13 +23,6 @@ Task2::~Task2()
 {
     delete ui;
 }
-
-// https://trk.mail.ru/c/qtcyh9
-
-// https://pogoda.mail.ru/
-
-
-//https://news.mail.ru/currency/src/MOEX/charcode/USD/
 
 void Task2::on_btnClose_clicked()
 {
@@ -39,7 +34,13 @@ void Task2::on_comboBox_activated(const QString &arg1)
 {
    WebInfo *webInfo = new WebInfo(ui->comboBox->currentText());
 
-   ui->textEdit->setText(webInfo->getWeather() + webInfo->getCurrency());
+   ui->label->setText(webInfo->getWeather() + webInfo->getCurrency());
+
+   if (comboboxTipIsRemoved == false)
+   {
+       ui->comboBox->removeItem(0); //Подсказка на ём нам боле не требуется
+       comboboxTipIsRemoved = true;
+   }
 
    delete webInfo;
 

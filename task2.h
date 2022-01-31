@@ -22,6 +22,7 @@ private slots:
 
 private:
     Ui::Task2 *ui;
+    bool comboboxTipIsRemoved;
 };
 
 #endif // TASK2_H

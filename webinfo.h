@@ -38,7 +38,7 @@ const HostConvention hostConvArr[] =
 //     "https://trk.mail.ru/c/qtcyh9",
      //Same as above link:
      "https://pogoda.mail.ru/prognoz/moskva/",
-     "mrc__share_title\" content=\"([^>]+)/>", //works
+     "mrc__share_title\" content=\"([^\"]+)\"",
 //     "https://news.mail.ru/currency.html",
      "https://news.mail.ru/currency/src/CBRF/charcode/USD/",
      (R"("RUB\",\"items\":\[\{\"rate\":\"(\d\d).(\d\d)(.*?).*(\d\d).(\d\d)(.*?)EUR")")
@@ -48,7 +48,6 @@ const HostConvention hostConvArr[] =
       "https://yandex.ru/pogoda/",
       "nowcastAlert\":\"(.+),\"icon\":",
       "https://yandex.ru",
-      //(R"("inline-stocks__value_inner\'>(\d\d),(\d\d))") //works on 101
       "inline-stocks__value_inner\'>([^<]+)<"
     }
 };
